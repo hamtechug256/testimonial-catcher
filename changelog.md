@@ -24,3 +24,4 @@
 - Resolved bug where login/signup buttons and links were unresponsive by correctly loading Supabase client and JavaScript files (removing `type="module"` from script tags and using global `Supabase` object).
 - Further resolved login/signup button and link unresponsiveness by ensuring DOM elements are loaded before attaching event listeners in `js/auth.js`.
 - Applied the same `DOMContentLoaded` and `supabase` initialization fix to `js/main.js`.
+- **Further resolved login/signup button and link unresponsiveness by ensuring the Supabase client is initialized globally before custom scripts execute, and by using `defer` attribute on script tags for proper timing.**

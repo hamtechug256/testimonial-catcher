@@ -1,12 +1,8 @@
-// --- Supabase Configuration ---
-const SUPABASE_URL = 'https://pgiqfrehalcccuavkfpp.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnaXFmcmVoYWxjY2N1YXZrZnBwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5Mzc4MTQsImV4cCI6MjA2ODUxMzgxNH0.PfqBYqc72IqJKWCQXFkRiATuUytPyMSKI3qgUaSquT8';
-
 let supabase; // Declare it here so it's accessible within the DOMContentLoaded
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize Supabase client here, after DOM is ready and Supabase CDN is loaded
-    supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    supabase = window.supabase; // Use the globally available supabase object
 
     // --- DOM Elements ---
     const loginForm = document.getElementById('login-form');
