@@ -7,6 +7,8 @@
 - Created this `changelog.md` file to track progress.
 - Set up GitHub repository for version control.
 - Deployed the application to Netlify for continuous deployment.
+- Implemented "Copy to Clipboard" functionality for testimonials on the dashboard.
+- Refined testimonial display on the dashboard with a card-based layout.
 
 ### Added
 - Configured Supabase `testimonials` table with `id`, `created_at`, `user_id`, `name`, `company`, and `text` columns.

@@ -70,12 +70,30 @@ async function loadTestimonials(userId){
     } else {
         data.forEach(testimonial => {
             const div = document.createElement('div');
-            div.className = 'testimonial';
+            div.className = 'testimonial-card';
             div.innerHTML = `
-                <p><strong>${testimonial.name}</strong> from ${testimonial.company || 'N/A'}</p>
-                <p>${testimonial.text}</p>
+                <p class="testimonial-text">${testimonial.text}</p>
+                <p class="testimonial-author"><strong>${testimonial.name}</strong>${testimonial.company ? `, ${testimonial.company}` : ''}</p>
+                <button class="copy-btn" data-text="${testimonial.text}">Copy</button>
             `;
             testimonialsList.appendChild(div);
+        });
+
+        // Attach event listeners to copy buttons
+        document.querySelectorAll('.copy-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const textToCopy = e.target.dataset.text;
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    const originalText = e.target.textContent;
+                    e.target.textContent = 'Copied!';
+                    setTimeout(() => {
+                        e.target.textContent = originalText;
+                    }, 1500);
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                    alert('Failed to copy testimonial.');
+                });
+            });
         });
     }
 }
