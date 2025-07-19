@@ -24,4 +24,4 @@
 - Resolved bug where login/signup buttons and links were unresponsive by correctly loading Supabase client and JavaScript files (removing `type="module"` from script tags and using global `Supabase` object).
 - Further resolved login/signup button and link unresponsiveness by ensuring DOM elements are loaded before attaching event listeners in `js/auth.js`.
 - Applied the same `DOMContentLoaded` and `supabase` initialization fix to `js/main.js`.
-- **Attempted to resolve login/signup button and link unresponsiveness by ensuring the Supabase client is initialized globally immediately after the CDN script, outside of `DOMContentLoaded` in the inline script.**
+- **- Resolved `Uncaught ReferenceError: Supabase is not defined` by ensuring the Supabase client is initialized globally in an inline script immediately after the Supabase CDN script in all HTML files.**
