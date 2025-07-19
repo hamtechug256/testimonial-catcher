@@ -20,7 +20,5 @@
   - Allow authenticated users to `SELECT` their own testimonials.
   - Allow authenticated users to `INSERT` their own testimonials.
 
-### Changed
-- Switched backend services from Firebase to Supabase for authentication and database.
-- Updated `js/auth.js` and `js/main.js` to use Supabase client library and API keys.
-- Completely overhauled `css/style.css` for a modern, sleek, and professional aesthetic, including refined typography, subtle depth and shadows, enhanced interactivity, ample whitespace, consistent spacing, modern form elements, and improved card designs.
+### Fixed
+- Resolved bug where login/signup buttons and links were unresponsive by correctly loading Supabase client and JavaScript files (removing `type="module"` from script tags and using global `Supabase` object).

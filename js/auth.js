@@ -1,10 +1,8 @@
 // --- Supabase Configuration ---
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-
 const SUPABASE_URL = 'https://pgiqfrehalcccuavkfpp.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnaXFmcmVoYWxjY2N1YXZrZnBwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5Mzc4MTQsImV4cCI6MjA2ODUxMzgxNH0.PfqBYqc72IqJKWCQXFkRiATuUytPyMSKI3qgUaSquT8';
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // --- DOM Elements ---
 const loginForm = document.getElementById('login-form');
