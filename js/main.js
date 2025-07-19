@@ -55,7 +55,7 @@ async function setupDashboard(user){
 async function loadTestimonials(userId){
     const { data, error } = await supabase
         .from('testimonials')
-        .select('name, company, text')
+        .select('id, name, company, text, status') // Select status as well
         .eq('user_id', userId);
 
     if (error) {
@@ -71,10 +71,24 @@ async function loadTestimonials(userId){
         data.forEach(testimonial => {
             const div = document.createElement('div');
             div.className = 'testimonial-card';
+            let statusClass = '';
+            if (testimonial.status === 'approved') {
+                statusClass = 'testimonial-approved';
+            } else if (testimonial.status === 'rejected') {
+                statusClass = 'testimonial-rejected';
+            } else {
+                statusClass = 'testimonial-pending';
+            }
+
             div.innerHTML = `
                 <p class="testimonial-text">${testimonial.text}</p>
                 <p class="testimonial-author"><strong>${testimonial.name}</strong>${testimonial.company ? `, ${testimonial.company}` : ''}</p>
-                <button class="copy-btn" data-text="${testimonial.text}">Copy</button>
+                <div class="testimonial-actions">
+                    <span class="testimonial-status ${statusClass}">${testimonial.status.toUpperCase()}</span>
+                    <button class="copy-btn" data-text="${testimonial.text}">Copy</button>
+                    ${testimonial.status !== 'approved' ? `<button class="approve-btn" data-id="${testimonial.id}">Approve</button>` : ''}
+                    ${testimonial.status !== 'rejected' ? `<button class="reject-btn" data-id="${testimonial.id}">Reject</button>` : ''}
+                </div>
             `;
             testimonialsList.appendChild(div);
         });
@@ -95,6 +109,29 @@ async function loadTestimonials(userId){
                 });
             });
         });
+
+        // Attach event listeners for Approve/Reject buttons
+        document.querySelectorAll('.approve-btn').forEach(button => {
+            button.addEventListener('click', (e) => updateTestimonialStatus(e.target.dataset.id, 'approved'));
+        });
+        document.querySelectorAll('.reject-btn').forEach(button => {
+            button.addEventListener('click', (e) => updateTestimonialStatus(e.target.dataset.id, 'rejected'));
+        });
+    }
+}
+
+async function updateTestimonialStatus(testimonialId, newStatus) {
+    const { data, error } = await supabase
+        .from('testimonials')
+        .update({ status: newStatus })
+        .eq('id', testimonialId);
+
+    if (error) {
+        console.error('Error updating testimonial status:', error.message);
+        alert('Failed to update testimonial status.');
+    } else {
+        console.log(`Testimonial ${testimonialId} status updated to ${newStatus}`);
+        // UI will automatically update due to onSnapshot in loadTestimonials
     }
 }
 
@@ -118,13 +155,14 @@ if(testimonialForm){
                     name: document.getElementById('customer-name').value,
                     company: document.getElementById('customer-company').value,
                     text: document.getElementById('testimonial-text').value,
+                    status: 'pending' // Default status for new testimonials
                 }
             ]);
 
         if (error) {
             alert('Error submitting testimonial: ' + error.message);
         } else {
-            testimonialForm.innerHTML = '<h2>Thank you for your feedback!</h2><p>Your testimonial has been submitted.</p>';
+            testimonialForm.innerHTML = '<h2>Thank you for your feedback!</h2><p>Your testimonial has been submitted and is awaiting approval.</p>';
         }
     });
 }

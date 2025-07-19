@@ -9,6 +9,7 @@
 - Deployed the application to Netlify for continuous deployment.
 - Implemented "Copy to Clipboard" functionality for testimonials on the dashboard.
 - Refined testimonial display on the dashboard with a card-based layout.
+- Implemented Testimonial Moderation & Status: Added `status` column to Supabase `testimonials` table, and added Approve/Reject buttons on the dashboard.
 
 ### Added
 - Configured Supabase `testimonials` table with `id`, `created_at`, `user_id`, `name`, `company`, and `text` columns.
