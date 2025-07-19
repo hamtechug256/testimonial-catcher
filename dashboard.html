@@ -4,19 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Dashboard - Testimonial Catcher</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <header>
-        <h1>Your Dashboard</h1>
-        <button id="logout-button">Logout</button>
+        <h1><a href="index.html">Testimonial Catcher</a></h1>
+        <button id="logout-button" class="btn btn-primary">Logout</button>
     </header>
 
     <main>
-        <h2>Your Testimonials</h2>
-        <p>Your unique testimonial link: <a id="testimonial-link" href="#" target="_blank"></a></p>
-        <div id="testimonials-list">
-            <!-- Testimonials will be loaded here -->
+        <div class="dashboard-container">
+            <h2>Your Dashboard</h2>
+            <div class="testimonial-link-section">
+                <p>Your unique testimonial link:</p>
+                <a id="testimonial-link" href="#" target="_blank"></a>
+            </div>
+            <h3>Collected Testimonials</h3>
+            <div id="testimonials-list">
+                <!-- Testimonials will be loaded here -->
+            </div>
         </div>
     </main>
 

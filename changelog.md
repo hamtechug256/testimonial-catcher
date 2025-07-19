@@ -18,3 +18,4 @@
 ### Changed
 - Switched backend services from Firebase to Supabase for authentication and database.
 - Updated `js/auth.js` and `js/main.js` to use Supabase client library and API keys.
+- Overhauled `css/style.css` with a professional design system, including a new color palette, typography, spacing, and responsive adjustments.
