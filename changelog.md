@@ -11,6 +11,7 @@
 - Refined testimonial display on the dashboard with a card-based layout.
 - Implemented Testimonial Moderation & Status: Added `status` column to Supabase `testimonials` table, and added Approve/Reject buttons on the dashboard.
 - Implemented Testimonial Rating: Added `rating` column to Supabase `testimonials` table, added star rating input to public submission form, and displayed ratings on dashboard testimonial cards.
+- Implemented Embeddable Public Testimonial Widget: Created `public/embed.html` to display approved testimonials, updated Supabase RLS for public read access to approved testimonials, and added embed code generation/copy to dashboard.
 
 ### Added
 - Configured Supabase `testimonials` table with `id`, `created_at`, `user_id`, `name`, `company`, and `text` columns.

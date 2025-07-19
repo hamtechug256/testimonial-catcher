@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testimonial Widget</title>
+    <style>
+        /* Basic styling for the embedded testimonials */
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background: transparent; /* Important for embedding */
+            overflow: hidden; /* Prevent scrollbars if content overflows */
+        }
+        .widget-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .widget-testimonial-card {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            max-width: 300px;
+            flex: 1 1 280px; /* Allow cards to grow/shrink */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .widget-testimonial-card p {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        .widget-testimonial-card .author {
+            font-weight: 600;
+            color: #334155;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+        .widget-testimonial-card .rating {
+            color: #FBBF24; /* Accent color for stars */
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="testimonial-widget-root" class="widget-container">
+        <!-- Testimonials will be loaded here by JavaScript -->
+    </div>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+        const SUPABASE_URL = 'https://pgiqfrehalcccuavkfpp.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnaXFmcmVoYWxjY2N1YXZrZnBwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5Mzc4MTQsImV4cCI6MjA2ODUxMzgxNH0.PfqBYqc72IqJKWCQXFkRiATuUytPyMSKI3qgUaSquT8';
+
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const userId = urlParams.get('user');
+            const widgetRoot = document.getElementById('testimonial-widget-root');
+
+            if (!userId) {
+                widgetRoot.innerHTML = '<p>Error: User ID not provided for widget.</p>';
+                return;
+            }
+
+            const { data, error } = await supabase
+                .from('testimonials')
+                .select('name, company, text, rating')
+                .eq('user_id', userId)
+                .eq('status', 'approved'); // ONLY show approved testimonials
+
+            if (error) {
+                console.error('Error loading widget testimonials:', error.message);
+                widgetRoot.innerHTML = '<p>Error loading testimonials.</p>';
+                return;
+            }
+
+            if (data.length === 0) {
+                widgetRoot.innerHTML = '<p>No approved testimonials yet.</p>';
+            } else {
+                data.forEach(testimonial => {
+                    const card = document.createElement('div');
+                    card.className = 'widget-testimonial-card';
+
+                    const stars = testimonial.rating ? '★'.repeat(testimonial.rating) + '☆'.repeat(5 - testimonial.rating) : '';
+
+                    card.innerHTML = `
+                        <p>${testimonial.text}</p>
+                        <p class="author"><strong>${testimonial.name}</strong>${testimonial.company ? `, ${testimonial.company}` : ''}</p>
+                        ${testimonial.rating ? `<div class="rating">${stars}</div>` : ''}
+                    `;
+                    widgetRoot.appendChild(card);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

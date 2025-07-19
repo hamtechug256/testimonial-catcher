@@ -9,6 +9,8 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 // --- DOM Elements ---
 const logoutButton = document.getElementById('logout-button');
 const testimonialLink = document.getElementById('testimonial-link');
+const embedCodeSnippet = document.getElementById('embed-code-snippet');
+const copyEmbedCodeButton = document.getElementById('copy-embed-code');
 const testimonialsList = document.getElementById('testimonials-list');
 const testimonialForm = document.getElementById('testimonial-form');
 
@@ -47,6 +49,28 @@ async function setupDashboard(user){
     const link = `${window.location.origin}/public/index.html?user=${user.id}`;
     testimonialLink.href = link;
     testimonialLink.textContent = link;
+
+    // Generate and display embed code
+    const embedCode = `<iframe src="${window.location.origin}/public/embed.html?user=${user.id}" style="width:100%; height:500px; border:none;" title="Testimonials"></iframe>`;
+    if (embedCodeSnippet) {
+        embedCodeSnippet.value = embedCode;
+    }
+
+    // Attach event listener for copy embed code button
+    if (copyEmbedCodeButton) {
+        copyEmbedCodeButton.addEventListener('click', () => {
+            navigator.clipboard.writeText(embedCode).then(() => {
+                const originalText = copyEmbedCodeButton.textContent;
+                copyEmbedCodeButton.textContent = 'Copied!';
+                setTimeout(() => {
+                    copyEmbedCodeButton.textContent = originalText;
+                }, 1500);
+            }).catch(err => {
+                console.error('Failed to copy embed code: ', err);
+                alert('Failed to copy embed code.');
+            });
+        });
+    }
 
     // Load testimonials
     loadTestimonials(user.id);
