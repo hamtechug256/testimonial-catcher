@@ -10,6 +10,7 @@
 - Implemented "Copy to Clipboard" functionality for testimonials on the dashboard.
 - Refined testimonial display on the dashboard with a card-based layout.
 - Implemented Testimonial Moderation & Status: Added `status` column to Supabase `testimonials` table, and added Approve/Reject buttons on the dashboard.
+- Implemented Testimonial Rating: Added `rating` column to Supabase `testimonials` table, added star rating input to public submission form, and displayed ratings on dashboard testimonial cards.
 
 ### Added
 - Configured Supabase `testimonials` table with `id`, `created_at`, `user_id`, `name`, `company`, and `text` columns.

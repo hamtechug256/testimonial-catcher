@@ -55,7 +55,7 @@ async function setupDashboard(user){
 async function loadTestimonials(userId){
     const { data, error } = await supabase
         .from('testimonials')
-        .select('id, name, company, text, status') // Select status as well
+        .select('id, name, company, text, status, rating') // Select rating as well
         .eq('user_id', userId);
 
     if (error) {
@@ -80,9 +80,13 @@ async function loadTestimonials(userId){
                 statusClass = 'testimonial-pending';
             }
 
+            // Generate star display
+            const stars = testimonial.rating ? '★'.repeat(testimonial.rating) + '☆'.repeat(5 - testimonial.rating) : '';
+
             div.innerHTML = `
                 <p class="testimonial-text">${testimonial.text}</p>
                 <p class="testimonial-author"><strong>${testimonial.name}</strong>${testimonial.company ? `, ${testimonial.company}` : ''}</p>
+                ${testimonial.rating ? `<div class="testimonial-rating">${stars}</div>` : ''}
                 <div class="testimonial-actions">
                     <span class="testimonial-status ${statusClass}">${testimonial.status.toUpperCase()}</span>
                     <button class="copy-btn" data-text="${testimonial.text}">Copy</button>
@@ -147,6 +151,9 @@ if(testimonialForm){
             return alert('This form is not linked to a user. Please ensure you are using the correct link.');
         }
 
+        const selectedRating = document.querySelector('input[name="rating"]:checked');
+        const ratingValue = selectedRating ? parseInt(selectedRating.value) : null;
+
         const { error } = await supabase
             .from('testimonials')
             .insert([
@@ -155,7 +162,8 @@ if(testimonialForm){
                     name: document.getElementById('customer-name').value,
                     company: document.getElementById('customer-company').value,
                     text: document.getElementById('testimonial-text').value,
-                    status: 'pending' // Default status for new testimonials
+                    status: 'pending', // Default status for new testimonials
+                    rating: ratingValue
                 }
             ]);
 
