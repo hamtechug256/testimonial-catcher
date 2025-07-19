@@ -5,6 +5,8 @@
 ### Added
 - Initialized the "Testimonial Catcher" project.
 - Created this `changelog.md` file to track progress.
+- Set up GitHub repository for version control.
+- Deployed the application to Netlify for continuous deployment.
 
 ### Added
 - Configured Supabase `testimonials` table with `id`, `created_at`, `user_id`, `name`, `company`, and `text` columns.
