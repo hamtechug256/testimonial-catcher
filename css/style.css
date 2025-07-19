@@ -344,6 +344,56 @@ footer {
     margin-bottom: var(--spacing-lg);
 }
 
+/* Star Rating Styles */
+.rating-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.rating-group label {
+    margin-bottom: var(--spacing-sm);
+    font-size: 1.1rem;
+    color: var(--text-color);
+}
+
+.stars {
+    direction: rtl; /* Right-to-left for star selection */
+    display: inline-block;
+    font-size: 2rem; /* Size of the stars */
+}
+
+.stars input[type="radio"] {
+    display: none; /* Hide the actual radio buttons */
+}
+
+.stars label {
+    color: var(--border-color); /* Default star color (unfilled) */
+    cursor: pointer;
+    padding: 0 var(--spacing-xs);
+    transition: color 0.2s ease;
+    display: inline-block;
+    margin-bottom: 0; /* Override form-group label margin */
+}
+
+.stars label:hover,
+.stars label:hover ~ label {
+    color: var(--accent-color); /* Hover color */
+}
+
+.stars input[type="radio"]:checked ~ label {
+    color: var(--accent-color); /* Filled star color */
+}
+
+/* Displayed Stars on Dashboard */
+.testimonial-rating {
+    font-size: 1.5rem;
+    color: var(--accent-color);
+    margin-top: var(--spacing-xs);
+    margin-bottom: var(--spacing-sm);
+}
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     h1 {
